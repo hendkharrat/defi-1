@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taco Baja Mobile – Southwestern Family Restaurant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; color: #2d2d2d; overflow-x: hidden; }
+
+        :root {
+            --orange: #E8642C; --orange-dark: #C74F1E; --orange-light: #FF8C42;
+            --yellow: #F5B841; --yellow-light: #FFF3D6;
+            --green: #2D6A4F; --green-light: #52B788; --green-pale: #D8F3DC;
+            --green-fluo: #39FF14; --green-fluo-soft: #B5FF6A;
+            --red: #D44527; --red-light: #FF6B6B;
+            --lime: #7BC74D; --lime-light: #D4F5E9;
+            --cream: #FFF9F0; --brown: #5C3D2E; --brown-light: #8B6F5E;
+            --white: #FFFFFF; --dark: #1A1A2E;
+            --terracotta: #C96B3C;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12); --shadow-lg: 0 20px 60px rgba(0,0,0,0.18);
+            --radius: 20px; --radius-sm: 14px;
+            /* Warm page backgrounds */
+            --bg-warm: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 30%, #FFF3E0 60%, #E8F5E9 100%);
+            --bg-warm-2: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 30%, #FFF8E1 60%, #E8F5E9 100%);
+            --bg-warm-3: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 25%, #FFF8E1 50%, #FFECB3 75%, #FFE0B2 100%);
+        }
+
+        /* ===== GLOBAL PAGE BACKGROUND ===== */
+        body { background: var(--bg-warm); }
+
+        /* ===== NAVBAR ===== */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1.1rem 2rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.4s ease; }
+        .navbar.scrolled { background: rgba(255,248,225,0.97); backdrop-filter: blur(14px); box-shadow: 0 2px 24px rgba(0,0,0,0.08); padding: 0.7rem 2rem; }
+        .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+        .nav-logo .logo-icon { width: 46px; height: 46px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: transform 0.3s; border: 3px solid var(--orange); }
+        .nav-logo:hover .logo-icon { transform: rotate(12deg); }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: var(--white); transition: color 0.4s; }
+        .navbar.scrolled .nav-logo-text { color: var(--dark); }
+        .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--white); font-weight: 600; font-size: 0.92rem; letter-spacing: 0.8px; text-transform: uppercase; position: relative; transition: color 0.3s; }
+        .navbar.scrolled .nav-links a { color: var(--dark); }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2.5px; background: var(--orange); transition: width 0.3s; border-radius: 2px; }
+        .nav-links a:hover::after { width: 100%; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { width: 28px; height: 3px; background: var(--white); border-radius: 3px; transition: all 0.3s; }
+        .navbar.scrolled .hamburger span { background: var(--dark); }
+
+        /* ===== HERO — Warm Yellow / Orange / Fluorescent Green with Mexican floating items ===== */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 15%, #FFE0B2 30%, #CCFF90 45%, #B2FF59 55%, #FFCC80 70%, #FFB74D 85%, #FFF9C4 100%); background-size: 400% 400%; animation: heroGradient 14s ease infinite; }
+        @keyframes heroGradient { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+        .hero-bg-pattern { position: absolute; inset: 0; background-image:
+            radial-gradient(circle at 10% 90%, rgba(255,183,77,0.18) 0%, transparent 40%),
+            radial-gradient(circle at 90% 10%, rgba(178,255,89,0.2) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(57,255,20,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 25% 40%, rgba(255,236,179,0.15) 0%, transparent 35%),
+            radial-gradient(circle at 75% 70%, rgba(255,152,0,0.12) 0%, transparent 35%); }
+
+        /* Mexican floating decorations */
+        .hero-decoration { position: absolute; inset: 0; pointer-events: none; }
+        .hero-deco-item { position: absolute; opacity: 0.15; }
+
+        /* Individual float animations for each Mexican item */
+        .deco-sombrero-1 { top: 5%; left: 5%; font-size: 5rem; animation: floatSombrero1 9s ease-in-out infinite; }
+        .deco-sombrero-2 { top: 12%; right: 8%; font-size: 3.5rem; animation: floatSombrero2 11s ease-in-out infinite 1s; }
+        .deco-sombrero-3 { bottom: 18%; left: 3%; font-size: 4rem; animation: floatSombrero3 10s ease-in-out infinite 2s; }
+        .deco-chili-1 { top: 25%; right: 3%; font-size: 3rem; animation: floatChili 8s ease-in-out infinite 0.5s; }
+        .deco-chili-2 { bottom: 8%; right: 15%; font-size: 2.5rem; animation: floatChili 7s ease-in-out infinite 3s; }
+        .deco-cactus-1 { bottom: 5%; left: 12%; font-size: 3.5rem; animation: floatCactus 10s ease-in-out infinite 1.5s; }
+        .deco-cactus-2 { top: 8%; left: 35%; font-size: 2rem; animation: floatCactus 9s ease-in-out infinite 2.5s; }
+        .deco-maraca-1 { top: 40%; right: 5%; font-size: 2.5rem; animation: floatMaraca 8s ease-in-out infinite 0.8s; }
+        .deco-guitar-1 { bottom: 30%; left: 1%; font-size: 3rem; animation: floatGuitar 11s ease-in-out infinite 1.2s; }
+        .deco-flower-1 { top: 50%; right: 25%; font-size: 2rem; animation: floatFlower 7s ease-in-out infinite 0.3s; }
+        .deco-flower-2 { top: 18%; left: 20%; font-size: 1.8rem; animation: floatFlower 9s ease-in-out infinite 2s; }
+        .deco-pepper-1 { bottom: 35%; right: 8%; font-size: 2.2rem; animation: floatPepper 8s ease-in-out infinite 1.8s; }
+        .deco-dancer-1 { top: 60%; left: 8%; font-size: 2.8rem; animation: floatDancer 10s ease-in-out infinite 0.6s; }
+
+        @keyframes floatSombrero1 { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-30px) rotate(10deg)} }
+        @keyframes floatSombrero2 { 0%,100%{transform:translateY(0) rotate(8deg)} 50%{transform:translateY(-20px) rotate(-8deg)} }
+        @keyframes floatSombrero3 { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-25px) rotate(12deg)} }
+        @keyframes floatChili { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-18px) rotate(15deg)} }
+        @keyframes floatCactus { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-22px) rotate(-5deg)} }
+        @keyframes floatMaraca { 0%,100%{transform:translateY(0) rotate(-10deg)} 33%{transform:translateY(-15px) rotate(10deg)} 66%{transform:translateY(-10px) rotate(-5deg)} }
+        @keyframes floatGuitar { 0%,100%{transform:translateY(0) rotate(5deg)} 50%{transform:translateY(-28px) rotate(-5deg)} }
+        @keyframes floatFlower { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(20deg)} }
+        @keyframes floatPepper { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-16px) rotate(-15deg)} }
+        @keyframes floatDancer { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-20px) rotate(8deg)} }
+
+        /* Aztec-inspired step pyramid SVG shapes */
+        .aztec-pattern { position: absolute; pointer-events: none; }
+        .aztec-left { left: 0; top: 20%; width: 120px; opacity: 0.08; }
+        .aztec-right { right: 0; bottom: 15%; width: 100px; opacity: 0.08; }
+        .aztec-top { top: 0; left: 40%; width: 200px; opacity: 0.06; }
+
+        /* Mexican blanket stripe accents */
+        .mexican-stripe { position: absolute; pointer-events: none; }
+        .stripe-top { top: 0; left: 0; width: 100%; height: 6px; background: repeating-linear-gradient(90deg, var(--orange) 0px, var(--orange) 40px, var(--green) 40px, var(--green) 80px, var(--yellow) 80px, var(--yellow) 120px, var(--red) 120px, var(--red) 160px, var(--green-fluo-soft) 160px, var(--green-fluo-soft) 200px); }
+        .stripe-bottom { bottom: 0; left: 0; width: 100%; height: 6px; background: repeating-linear-gradient(90deg, var(--green) 0px, var(--green) 40px, var(--orange) 40px, var(--orange) 80px, var(--red) 80px, var(--red) 120px, var(--yellow) 120px, var(--yellow) 160px, var(--green-fluo-soft) 160px, var(--green-fluo-soft) 200px); }
+
+        .hero-content { text-align: center; z-index: 2; padding: 2rem; max-width: 950px; }
+        .hero-badge { display: inline-block; background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.45); color: var(--dark); padding: 0.5rem 1.8rem; border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeInDown 0.8s ease; backdrop-filter: blur(10px); }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900; color: var(--dark); line-height: 1.05; margin-bottom: 1.5rem; animation: fadeInUp 0.8s ease 0.2s both; text-shadow: 0 4px 30px rgba(232,100,44,0.15); }
+        .hero-title .script { font-family: 'Sacramento', cursive; font-size: 1.2em; color: var(--green); font-weight: 400; display: block; margin-top: -0.5rem; }
+        .hero-subtitle { font-size: 1.25rem; color: rgba(45,45,45,0.85); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.8; animation: fadeInUp 0.8s ease 0.4s both; font-weight: 400; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeInUp 0.8s ease 0.6s both; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2.2rem; border-radius: 50px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; }
+        .btn-primary { background: var(--orange); color: white; box-shadow: 0 4px 20px rgba(232,100,44,0.3); }
+        .btn-primary:hover { background: var(--orange-dark); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(232,100,44,0.4); }
+        .btn-secondary { background: rgba(57,255,20,0.15); color: var(--dark); border: 2px solid rgba(57,255,20,0.4); backdrop-filter: blur(10px); }
+        .btn-secondary:hover { border-color: var(--green-fluo); background: rgba(57,255,20,0.25); transform: translateY(-3px); }
+        .hero-scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; }
+        .hero-scroll svg { width: 30px; height: 30px; stroke: var(--orange); }
+        @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== SECTIONS — Warm backgrounds ===== */
+        .section { padding: 6rem 2rem; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-label { display: inline-block; font-family: 'Sacramento', cursive; font-size: 1.8rem; color: var(--orange); margin-bottom: 0.5rem; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--dark); margin-bottom: 1rem; }
+        .section-desc { font-size: 1.1rem; color: var(--brown-light); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* ===== REVIEWS — Warm yellow-orange-green bg ===== */
+        .reviews { background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 40%, #C8E6C9 100%); }
+        .reviews-grid { columns: 3; column-gap: 1.5rem; }
+        .review-card { break-inside: avoid; margin-bottom: 1.5rem; border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); transition: all 0.3s; position: relative; overflow: hidden; }
+        .review-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .review-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: repeating-linear-gradient(90deg, var(--orange) 0px, var(--orange) 20px, var(--green) 20px, var(--green) 40px, var(--yellow) 40px, var(--yellow) 60px, var(--green-fluo-soft) 60px, var(--green-fluo-soft) 80px); }
+        .review-card:nth-child(1) { background: linear-gradient(135deg, #FFF9F0 0%, #FFECD2 100%); }
+        .review-card:nth-child(2) { background: linear-gradient(135deg, #E8F5E9 0%, #F0FFF4 100%); }
+        .review-card:nth-child(3) { background: linear-gradient(135deg, #FFF3D6 0%, #FFF9F0 100%); }
+        .review-card:nth-child(4) { background: linear-gradient(135deg, #FFECD2 0%, #E8F5E9 100%); }
+        .review-stars { color: var(--yellow); font-size: 1.2rem; margin-bottom: 1rem; letter-spacing: 3px; }
+        .review-text { font-size: 0.95rem; line-height: 1.8; color: var(--brown-light); margin-bottom: 1.5rem; font-style: italic; }
+        .review-author { display: flex; align-items: center; gap: 0.8rem; }
+        .review-avatar { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: white; flex-shrink: 0; }
+        .review-name { font-weight: 600; font-size: 0.95rem; color: var(--dark); }
+        .review-role { font-size: 0.8rem; color: var(--brown-light); }
+        .rv1 { background: var(--orange); }
+        .rv2 { background: var(--green); }
+        .rv3 { background: var(--terracotta); }
+        .rv4 { background: var(--green-light); }
+
+        /* ===== GALLERY — Warm orange-yellow-green bg ===== */
+        .gallery { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 35%, #FFF8E1 65%, #C8E6C9 100%); }
+        .gallery-masonry { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; grid-auto-rows: minmax(120px, auto); }
+        .gallery-item { border-radius: var(--radius); overflow: hidden; position: relative; box-shadow: var(--shadow); transition: all 0.4s; overflow: hidden; }
+        .gallery-item:hover { transform: translateY(-6px) scale(1.02); box-shadow: var(--shadow-lg); z-index: 2; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
+        .gallery-item:hover img { transform: scale(1.08); }
+
+        .gallery-item.gi-orange { border: 4px solid var(--orange); }
+        .gallery-item.gi-green { border: 4px solid var(--green); }
+        .gallery-item.gi-yellow { border: 4px solid var(--yellow); }
+        .gallery-item.gi-red { border: 4px solid var(--red); }
+        .gallery-item.gi-lime { border: 4px solid var(--lime); }
+        .gallery-item.gi-terracotta { border: 4px solid var(--terracotta); }
+        .gallery-item.gi-greenlight { border: 4px solid var(--green-fluo-soft); }
+
+        .gallery-item.g1 { grid-column: 1 / 2; grid-row: 1 / 3; min-height: 320px; }
+        .gallery-item.g2 { grid-column: 2 / 3; grid-row: 1 / 2; min-height: 180px; }
+        .gallery-item.g3 { grid-column: 3 / 4; grid-row: 1 / 2; min-height: 200px; }
+        .gallery-item.g4 { grid-column: 2 / 3; grid-row: 2 / 4; min-height: 300px; }
+        .gallery-item.g5 { grid-column: 3 / 4; grid-row: 2 / 3; min-height: 180px; }
+        .gallery-item.g6 { grid-column: 1 / 2; grid-row: 3 / 4; min-height: 180px; }
+        .gallery-item.g7 { grid-column: 3 / 4; grid-row: 3 / 4; min-height: 220px; }
+
+        .gallery-item-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(45,106,79,0.7) 0%, rgba(232,100,44,0.3) 40%, transparent 70%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.2rem; }
+        .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+        .gallery-item-label { color: white; font-weight: 700; font-size: 1rem; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+
+        /* ===== LOCATION — Warm bg ===== */
+        .location { background: linear-gradient(135deg, #E8F5E9 0%, #FFF8E1 35%, #FFECB3 65%, #FFE0B2 100%); }
+        .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .location-info { display: flex; flex-direction: column; gap: 1.5rem; }
+        .location-card { background: rgba(255,255,255,0.6); backdrop-filter: blur(8px); border-radius: var(--radius-sm); padding: 1.5rem; box-shadow: var(--shadow); display: flex; align-items: flex-start; gap: 1rem; transition: all 0.3s; border: 1px solid rgba(255,183,77,0.2); }
+        .location-card:hover { transform: translateX(5px); box-shadow: var(--shadow-lg); }
+        .loc-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+        .loc-icon-address { background: var(--green-pale); }
+        .loc-icon-email { background: var(--yellow-light); }
+        .loc-icon-fb { background: #D6E4F0; }
+        .loc-label { font-weight: 700; font-size: 0.85rem; text-transform: uppercase; color: var(--green); letter-spacing: 1px; margin-bottom: 0.3rem; }
+        .loc-text { font-size: 0.95rem; color: var(--brown-light); line-height: 1.6; }
+        .loc-text a { color: var(--orange); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .loc-text a:hover { color: var(--orange-dark); }
+        .location-map { border-radius: var(--radius); overflow: hidden; min-height: 400px; box-shadow: var(--shadow-lg); border: 3px solid var(--orange); }
+        .location-map iframe { width: 100%; height: 100%; min-height: 400px; border: none; }
+
+        /* ===== CTA — Warm fluo green orange ===== */
+        .cta-section { background: linear-gradient(135deg, var(--green-fluo-soft) 0%, #CCFF90 20%, var(--yellow) 40%, var(--orange-light) 60%, var(--orange) 80%, #FF6F00 100%); padding: 5rem 2rem; text-align: center; position: relative; overflow: hidden; }
+        .cta-section::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: rgba(255,255,255,0.12); border-radius: 50%; }
+        .cta-section::after { content: ''; position: absolute; bottom: -30%; left: -5%; width: 300px; height: 300px; background: rgba(255,255,255,0.08); border-radius: 50%; }
+        .cta-stripe { position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: repeating-linear-gradient(90deg, var(--orange) 0px, var(--orange) 30px, var(--yellow) 30px, var(--yellow) 60px, var(--green) 60px, var(--green) 90px, var(--green-fluo-soft) 90px, var(--green-fluo-soft) 120px, var(--red) 120px, var(--red) 150px); }
+        .cta-title { font-family: 'Playfair Display', serif; font-size: 3rem; color: white; margin-bottom: 1rem; z-index: 2; position: relative; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .cta-text { font-size: 1.1rem; color: rgba(255,255,255,0.95); margin-bottom: 2rem; z-index: 2; position: relative; }
+        .btn-white { background: white; color: var(--green); font-weight: 700; padding: 1rem 2.5rem; border-radius: 50px; text-decoration: none; transition: all 0.3s; display: inline-block; z-index: 2; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); color: var(--orange); }
+
+        /* ===== FOOTER ===== */
+        .footer { background: var(--dark); color: rgba(255,255,255,0.7); padding: 4rem 2rem 2rem; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .footer-brand .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 1rem; }
+        .footer-brand p { font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.5rem; }
+        .footer-social { display: flex; gap: 0.8rem; }
+        .social-link { width: 44px; height: 44px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; transition: all 0.3s; font-size: 1.1rem; }
+        .social-link:hover { background: var(--orange); transform: translateY(-3px); }
+        .footer-col h4 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.6rem; }
+        .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--orange); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-bottom p { font-size: 0.85rem; }
+        .footer-bottom-links { display: flex; gap: 1.5rem; }
+        .footer-bottom-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+        .footer-bottom-links a:hover { color: var(--orange); }
+        .footer-stripe { height: 4px; background: repeating-linear-gradient(90deg, var(--orange) 0px, var(--orange) 30px, var(--green) 30px, var(--green) 60px, var(--yellow) 60px, var(--yellow) 90px, var(--green-fluo-soft) 90px, var(--green-fluo-soft) 120px, var(--red) 120px, var(--red) 150px); }
+
+        /* ===== REVEAL ANIMATION ===== */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 75%; max-width: 350px; height: 100vh; background: var(--dark); z-index: 1002; padding: 5rem 2rem 2rem; transition: right 0.4s ease; box-shadow: -5px 0 30px rgba(0,0,0,0.3); }
+        .mobile-menu.open { right: 0; }
+        .mobile-menu a { display: block; color: white; text-decoration: none; font-size: 1.2rem; font-weight: 600; padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); transition: color 0.3s; }
+        .mobile-menu a:hover { color: var(--orange); }
+        .mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1001; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .mobile-overlay.open { opacity: 1; visibility: visible; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .gallery-masonry { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item.g1 { grid-column: 1 / 2; grid-row: 1 / 3; min-height: 260px; }
+            .gallery-item.g2 { grid-column: 2 / 3; grid-row: 1 / 2; min-height: 180px; }
+            .gallery-item.g3 { grid-column: 2 / 3; grid-row: 2 / 3; min-height: 180px; }
+            .gallery-item.g4 { grid-column: 1 / 2; grid-row: 3 / 5; min-height: 260px; }
+            .gallery-item.g5 { grid-column: 2 / 3; grid-row: 3 / 4; min-height: 180px; }
+            .gallery-item.g6 { grid-column: 1 / 2; grid-row: 5 / 6; min-height: 180px; }
+            .gallery-item.g7 { grid-column: 2 / 3; grid-row: 4 / 5; min-height: 200px; }
+            .reviews-grid { columns: 2; }
+            .location-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.05rem; }
+            .section-title { font-size: 2.2rem; }
+            .gallery-masonry { grid-template-columns: 1fr 1fr; grid-auto-rows: minmax(140px, auto); }
+            .gallery-item.g1, .gallery-item.g2, .gallery-item.g3, .gallery-item.g4, .gallery-item.g5, .gallery-item.g6, .gallery-item.g7 { grid-column: auto; grid-row: auto; min-height: 180px; }
+            .reviews-grid { columns: 1; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2.4rem; }
+            .gallery-masonry { grid-template-columns: 1fr; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <a href="#home" class="nav-logo">
+            <div class="logo-icon">🌮</div>
+            <span class="nav-logo-text">Taco Baja Mobile</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#location">Find Us</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" onclick="closeMobile()">Home</a>
+        <a href="#reviews" onclick="closeMobile()">Reviews</a>
+        <a href="#gallery" onclick="closeMobile()">Gallery</a>
+        <a href="#location" onclick="closeMobile()">Find Us</a>
+    </div>
+
+    <!-- HERO — Light Yellow / Orange / Fluorescent Green with Mexican floating items -->
+    <section class="hero" id="home">
+        <div class="stripe-top mexican-stripe"></div>
+        <div class="stripe-bottom mexican-stripe"></div>
+        <div class="hero-bg-pattern"></div>
+
+        <!-- Aztec-style decorative SVGs -->
+        <svg class="aztec-pattern aztec-left" viewBox="0 0 100 200"><rect x="10" y="10" width="80" height="30" fill="white" rx="3"/><rect x="20" y="50" width="60" height="25" fill="white" rx="3"/><rect x="30" y="85" width="40" height="20" fill="white" rx="3"/><rect x="35" y="115" width="30" height="20" fill="white" rx="3"/><rect x="25" y="145" width="50" height="25" fill="white" rx="3"/><rect x="15" y="180" width="70" height="15" fill="white" rx="3"/></svg>
+        <svg class="aztec-pattern aztec-right" viewBox="0 0 100 200"><rect x="10" y="10" width="80" height="30" fill="white" rx="3"/><rect x="20" y="50" width="60" height="25" fill="white" rx="3"/><rect x="30" y="85" width="40" height="20" fill="white" rx="3"/><rect x="35" y="115" width="30" height="20" fill="white" rx="3"/><rect x="25" y="145" width="50" height="25" fill="white" rx="3"/><rect x="15" y="180" width="70" height="15" fill="white" rx="3"/></svg>
+
+        <!-- Floating Mexican cultural items -->
+        <div class="hero-decoration">
+            <div class="hero-deco-item deco-sombrero-1">🇲🇽</div>
+            <div class="hero-deco-item deco-sombrero-2">🤠</div>
+            <div class="hero-deco-item deco-sombrero-3">🌮</div>
+            <div class="hero-deco-item deco-chili-1">🌶️</div>
+            <div class="hero-deco-item deco-chili-2">🌶️</div>
+            <div class="hero-deco-item deco-cactus-1">🌵</div>
+            <div class="hero-deco-item deco-cactus-2">🌵</div>
+            <div class="hero-deco-item deco-maraca-1">🪇</div>
+            <div class="hero-deco-item deco-guitar-1">🎸</div>
+            <div class="hero-deco-item deco-flower-1">🌺</div>
+            <div class="hero-deco-item deco-flower-2">🌻</div>
+            <div class="hero-deco-item deco-pepper-1">🫑</div>
+            <div class="hero-deco-item deco-dancer-1">💃</div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-badge">Southwestern Family Restaurant</div>
+            <h1 class="hero-title">
+                Taco Baja Mobile
+                <span class="script">Deltona, FL</span>
+            </h1>
+            <p class="hero-subtitle">We are a family owned business dedicated to serve the best Southwestern food in town. Come for the flavors, stay for the warmth.</p>
+            <div class="hero-buttons">
+                <a href="#gallery" class="btn btn-primary">View Gallery</a>
+                <a href="#location" class="btn btn-secondary">Find Us</a>
+            </div>
+        </div>
+
+        <div class="hero-scroll">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </div>
+    </section>
+
+    <!-- REVIEWS — Restaurant-Focused -->
+    <section class="section reviews" id="reviews">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">What People Say</span>
+                <h2 class="section-title">Reviews</h2>
+                <p class="section-desc">Hear from our guests — families, food lovers, and friends who keep coming back.</p>
+            </div>
+            <div class="reviews-grid reveal">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Walking into Taco Baja feels like walking into a family member's home. The warmth of the welcome, the smell of fresh-cooked Southwestern dishes — it's an experience, not just a meal. My whole family looks forward to our Sunday dinners here."</p>
+                    <div class="review-author">
+                        <div class="review-avatar rv1">SM</div>
+                        <div>
+                            <div class="review-name">Sarah M.</div>
+                            <div class="review-role">Regular since 2022</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"The vibe here is unmatched — colorful, cozy, and genuinely welcoming. You can tell this family puts their heart into everything, from the handcrafted salsas to the way they greet you by name. Best Southwestern restaurant in Deltona, period."</p>
+                    <div class="review-author">
+                        <div class="review-avatar rv2">JR</div>
+                        <div>
+                            <div class="review-name">James R.</div>
+                            <div class="review-role">Local resident</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"We celebrated my daughter's birthday here and it was perfect. The staff made us feel like family — they even brought out a special dessert with a candle. The food is incredible: generous portions, bold flavors, everything made fresh. We'll be back!"</p>
+                    <div class="review-author">
+                        <div class="review-avatar rv3">AL</div>
+                        <div>
+                            <div class="review-name">Amanda L.</div>
+                            <div class="review-role">Family dinner</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"What keeps me coming back isn't just the amazing food — it's the atmosphere. It's vibrant, it's warm, and it feels real. The fajitas sizzle at the table, the burritos are huge, and the family that runs this place makes you feel like you belong. A true Deltona gem."</p>
+                    <div class="review-author">
+                        <div class="review-avatar rv4">DK</div>
+                        <div>
+                            <div class="review-name">David K.</div>
+                            <div class="review-role">Food enthusiast</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY — Creative Colorful Grid -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">In Pictures</span>
+                <h2 class="section-title">Gallery</h2>
+                <p class="section-desc">A taste of what awaits you — vibrant dishes made with love and bold Southwestern flavor.</p>
+            </div>
+            <div class="gallery-masonry reveal">
+                <div class="gallery-item g1 gi-orange">
+                    <img src="https://storage.googleapis.com/ot-pt/present_files/2026-08-21/anonymous/default/a8becde061c54b6d968f985ea6ecee78_.jpg?Expires=1789866175&GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&Signature=JOyJK3hxOfbJT0Ywwtzp4vVq9ZxD71fNBb78kT42nmWqyyjQx%2BXSXLON3eVS7XSuY%2BPSgGRmIo0gWBUozH3jelJbD0IemYv6W6ZTsCDgSRN1B22ZWz%2F1GfFwNGYfGKLw2wjfYHz2FaUqLfVOC9F8623e1nWPmQ1gOq0G8cczYEpuvbADEdENYi0oAYxGmexcZeM8QuPhGWz36sXCUUbzjF9EpQosixqTQY0hMR653PfPpQwpVZ8pivtSpL9JPE3t0ZujdKRUlUGNtKFT2AdcE2RmKXdjrO6Lw4%2BLLfz%2BIKHEwD%2B1bnFDiFE6KCAEYL43y0suPLzo2AgvbD22jwqXTw%3D%3D" alt="Loaded Nachos">
+                    <div class="gallery-item-overlay"><span class="gallery-item-label">Loaded Nachos</span></div>
+                </div>
+                <div class="gallery-item g2 gi-green">
+                    <img src="https://storage.googleapis.com/ot-pt/present_files/2026-08-21/anonymous/default/ebbd9c3939424818b19bf27ff04ec424_.jpg?Expires=1789866179&GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&Signature=dY%2B3tsIONygxnVRhrVJeks9zqFAsQTR1Sw6iUwytp3oGumSv5K6qBoTG%2FNpchIQhsTrusr2EwXQlLCpiy39AywYM7rnPxAoOyyZIvm4P9Io1nZ%2BBqvOCi21MJspPzipqJPNL3Hnd3enYxpbZoJFW5jrl%2FY6wBId8WdbAMAMJK8kEK63K54TjH%2FbNOB2H5Cbt%2FfzoEdStbqYi57pDr%2F7pHD9wL%2BWE3%2Fsg%2Bx3WzqxdPgqsZ41tvm8ZGA9ZD2T0J85%2BcrT33WCEB%2FxLX7NT8LrBChz3i6bi5kfaRUGG3DJQDIwYns%2FSC2c4kh4LTFQSs2%2B8rUWmOyLqPm5jPw6xg%2ByjxQ%3D%3D" alt="Street Tacos">
+                    <div class="gallery-item-overlay"><span class="gallery-item-label">Street Tacos</span></div>
+                </div>
+                <div class="gallery-item g3 gi-yellow">
+                    <img src="https://storage.googleapis.com/ot-pt/present_files/2026-08-21/anonymous/default/0053929cbeba4ff3b048b55e654c4367_.jpg?Expires=1789866182&GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&Signature=U12aPaCOQUL0Tge2tAkvxFRnJp3abiIoAg1Ecf8fXwVNAj%2BXxfnm82QX5H7uSIfzYeWMGraY0rqYS1EB55k%2FJy5fCw3kNsgOrRyFcUEMY7558zpihRDMXWvUKJqLg5PV50aR4%2F5IEcwp5BXk0NilslEF0ypK85tsSsZ%2Bo%2BJVDbViwhTPs9ywwxHZ%2Frr6Q8veRCeAF0wjoS2NsxLNxMG3CCDED%2FCtRwO9Kf6zOPQCyyIQoB1iL9wK%2B%2BNLz5TtW4%2BQrlwSbuiHoh0EvgdSDi3vLHTto%2FiCMmgGuvvL287FC3732EMDQy2uLpLhaDH%2FyC6nQyj3iw%2FEAA%2BCfmp3qZUl8w%3D%3D" alt="Burritos">
+                    <div class="gallery-item-overlay"><span class="gallery-item-label">Burritos</span></div>
+                </div>
+                <div class="gallery-item g4 gi-red">
+                    <img src="https://storage.googleapis.com/ot-pt/present_files/2026-08-21/anonymous/default/901be1fa9275474eba33c82d4c301e6a_.jpg?Expires=1789866186&GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&Signature=AYk%2FukPFTD9V2NTYAf8ZhT%2FRgWBUyKXsp1cKKN4kgHMlUw5foUCnlmxDDFhgqGG1d1Hg3XEZeGXGZ5wG8%2B5%2Ff6H1776M3GuFEEsgDjM8GOCEASwlV%2BTEHFKZazrdElzUBKJOh4IY%2BuktGYOYOZwbI3j2puwrV1QcxkiY1QOn96cIJPZ7inKcBNQfZcfBB%2FOnt8aXL8VnPNKa2yv2qKFAMxw0gh4ml%2F%2FE9xFRvnJ0GHZnfu1vIcXkTlBRVZ%2FpIfFssmSfioL4Bkbh64tUgJVOeM1TLHoPiVrornsqIyZuEC18JyUHpa8jKY42EtR1aFXEfn%2F83S6mU72xHLKbXLPCNQ%3D%3D" alt="Fajitas">
+                    <div class="gallery-item-overlay"><span class="gallery-item-label">Sizzling Fajitas</span></div>
+                </div>
+                <div class="gallery-item g5 gi-lime">
+                    <img src="https://storage.googleapis.com/ot-pt/present_files/2026-08-21/anonymous/default/07f9c1b8e8984aa697aac6281d6af49e_.jpg?Expires=1789866191&GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&Signature=X43diVzTHyfQ%2FOYF5joJiLfWI1tXMGLgTifvTihwRM837U1691zzAkIkj0FVbNVnX4YBKvXaf64x1ovk4NP4%2Bs3%2FymrAJ59czILhLwEaVK5wwWimlx2bS%2BIo7G%2FpoluLo2au5bZGNXgxSBXqbIjh2V9zuQm1UT6IDwoUVcoNx5XMMsDo5W9AMqHbwQ8JjB2erDWCSBfgffp6diCPITe6kPLJn%2Fw1b8fKIOGMbXcZIN2PRVwR4KbEIWlRKtu%2FbIVhWbApa5rie%2Blgu93oJ4hu%2FYkFNPKyE3escyqHSL%2Bl3cTWzmXztg2BBhz8nkHWXd27T2A1Aqcavu%2FkfN%2FZbIHyeg%3D%3D" alt="Torta">
+                    <div class="gallery-item-overlay"><span class="gallery-item-label">Hearty Torta</span></div>
+                </div>
+                <div class="gallery-item g6 gi-terracotta">
+                    <img src="https://storage.googleapis.com/ot-pt/present_files/2026-08-21/anonymous/default/5bb6c02bbfe24869b1ea96d20cdea790_.jpg?Expires=1789866194&GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&Signature=CBIgfENlNXLbpo5NaFU7xDkVrXULsroDip3sGOnnBbGEay3DfZrUaVnXYBNEX4mh3LSAzAQz4YWNXtSMltAIn6ERNjDBoMa%2FXP1PjILWe3rgtd8dfx%2BMVCrwPNUrIuHx5Ah%2BUma%2BxzTPmHAZZbX%2Ff5qiov%2BrTywAJ1lwN%2FHnUSgj2rYY3UBGfyUKcp8dZzUdKGOG0gr3D7SwDMMzDWvuYIdQ3OFMbZqVcUMCqtZFUVW1RkBQ%2B%2FW%2BRSS3sNoojbL3u6mr18yPGpS7sh3fAvK52TWAUgoKg9JFDFmQYRPMT1VG5%2FhBzQHMn12ikXfDtdJEFaZUuRY5EBluo6AwdwMR3A%3D%3D" alt="Quesadilla Tacos">
+                    <div class="gallery-item-overlay"><span class="gallery-item-label">Quesadilla Tacos</span></div>
+                </div>
+                <div class="gallery-item g7 gi-greenlight">
+                    <img src="https://storage.googleapis.com/ot-pt/present_files/2026-08-21/anonymous/default/d5ba688117ed4275ae40c6ade99db8f9_.jpg?Expires=1789866198&GoogleAccessId=gcs-owner%40oreateai-434511.iam.gserviceaccount.com&Signature=lfT6G%2BTLhObg8S9HWJSv3kI7YsIgh5UNhewkCK3rV8ORRMU8cdmfl55rhwsATsD7i4G%2BvC3Ahz6NRwHbxlXnabbBkpXjnk95bsJAJGN0Y%2F4genDJlnkIi3iL6arLXAEPqe664edJ640PkPpJhJN2FMAk68CQC1BWBJmvkwqmx27i3%2FGmcnw3hsPUsIEabWNzdMmplehKnhQ6FsM0uAL0TdC8rHSjNyLBPdpVJjBQI7JOvmuXo9q444sMp6BNXW5Wt44CGFaJPVvDcqYn4OMYbpB0gYhcV%2BJb93KuDdQjRdd2loFKP%2BM70C3QMB26z%2Fmx7H%2FniZVMC3Ycs%2FJEdBvCjg%3D%3D" alt="Banana Pudding">
+                    <div class="gallery-item-overlay"><span class="gallery-item-label">Banana Pudding</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FIND US -->
+    <section class="section location" id="location">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Visit Us</span>
+                <h2 class="section-title">Find Us</h2>
+                <p class="section-desc">We're right here in Deltona — come say hi!</p>
+            </div>
+            <div class="location-grid">
+                <div class="location-info reveal">
+                    <div class="location-card">
+                        <div class="loc-icon loc-icon-address">📍</div>
+                        <div>
+                            <div class="loc-label">Address</div>
+                            <div class="loc-text">1401 Howland Blvd<br>Deltona, FL 32738</div>
+                        </div>
+                    </div>
+                    <div class="location-card">
+                        <div class="loc-icon loc-icon-email">📧</div>
+                        <div>
+                            <div class="loc-label">Email</div>
+                            <div class="loc-text"><a href="mailto:info@conergy.us">info@conergy.us</a></div>
+                        </div>
+                    </div>
+                    <div class="location-card">
+                        <div class="loc-icon loc-icon-fb">📘</div>
+                        <div>
+                            <div class="loc-label">Facebook</div>
+                            <div class="loc-text"><a href="https://www.facebook.com/TacoBajaMobile" target="_blank">@TacoBajaMobile</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="location-map reveal">
+                    <iframe src="https://www.google.com/maps?q=1401+Howland+Blvd+Deltona+FL+32738&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-stripe"></div>
+        <h2 class="cta-title">Come Taste the Southwest!</h2>
+        <p class="cta-text">Fresh flavors, family recipes, and a warm welcome — we're saving you a seat.</p>
+        <a href="https://www.facebook.com/TacoBajaMobile" target="_blank" class="btn-white">Visit Us on Facebook</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-stripe"></div>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">🌮 Taco Baja Mobile</div>
+                    <p>A family owned Southwestern restaurant serving bold, authentic flavors in Deltona, FL. Fresh ingredients, homemade recipes, and a place where everyone feels at home.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/TacoBajaMobile" target="_blank" class="social-link" title="Facebook">📘</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#reviews">Reviews</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#location">Find Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Our Specialties</h4>
+                    <ul>
+                        <li>Tacos</li>
+                        <li>Burritos</li>
+                        <li>Fajitas</li>
+                        <li>Nachos</li>
+                        <li>Desserts</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:info@conergy.us">info@conergy.us</a></li>
+                        <li><a href="https://www.facebook.com/TacoBajaMobile" target="_blank">Facebook</a></li>
+                        <li><a href="#location">1401 Howland Blvd</a></li>
+                        <li><a href="#location">Deltona, FL 32738</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Taco Baja Mobile. All rights reserved. Made with 🌮 and ❤️</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            var navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 80);
+        });
+
+        // Mobile menu
+        var hamburger = document.getElementById('hamburger');
+        var mobileMenu = document.getElementById('mobileMenu');
+        var mobileOverlay = document.getElementById('mobileOverlay');
+        hamburger.addEventListener('click', function() {
+            mobileMenu.classList.toggle('open');
+            mobileOverlay.classList.toggle('open');
+        });
+        mobileOverlay.addEventListener('click', closeMobile);
+        function closeMobile() {
+            mobileMenu.classList.remove('open');
+            mobileOverlay.classList.remove('open');
+        }
+
+        // Reveal on scroll
+        var revealElements = document.querySelectorAll('.reveal');
+        var revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach(function(el) { revealObserver.observe(el); });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
